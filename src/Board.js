@@ -31,14 +31,23 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   const [board, setBoard] = useState(createBoard());
 
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
-  function createBoard() {
+  function createBoard(nrows, ncols, chanceLightStartsOn) {
     let initialBoard = [];
     // TODO: create array-of-arrays of true/false values
+    // This would be: [[f, f, f], [t, t, f], [f, f, f]]
+    for (let row=0; row<nrows; row++) {
+      const row = [];
+      for (let col=0; col<ncols; col++){
+        const cell = Math.random() < chanceLightStartsOn ? true : false;
+        row.push(cell);
+      }
+      initialBoard.push(row);
+    }
     return initialBoard;
   }
 
   function hasWon() {
-    // TODO: check the board in state to determine whether the player has won.
+    board.every(r => r.every(c => c === false));
   }
 
   function flipCellsAround(coord) {
@@ -54,8 +63,11 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
       };
 
       // TODO: Make a (deep) copy of the oldBoard
+      // stringify the old nested array, and parse it??
+      const newBoard = board.map(r => [...r]);
 
       // TODO: in the copy, flip this cell and the cells around it
+
 
       // TODO: return the copy
     });
